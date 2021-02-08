@@ -17,6 +17,7 @@ def match(img_path):
     try:
         im = Image.open(os.path.join(path_to_preprocessed, img_path))
         processed_list = os.listdir(path_to_processed)
+        #print(processed_list)
     except:
         print("cant open")
         return
@@ -49,6 +50,7 @@ def match(img_path):
 def process():
     print("Running Image Matching algorithm")
     val = None
+    preprocessed_list = os.listdir(path_to_preprocessed)
 
     # initializing query for creating table
     table_query = """ CREATE TABLE IF NOT EXISTS match ( 
@@ -95,5 +97,5 @@ def process():
         print(str(j)+" Jobs Remain")
         j -= 1
 
+    print("Image Matching Complete")
     conn.close()
-process()

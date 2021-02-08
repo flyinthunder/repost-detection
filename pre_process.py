@@ -7,7 +7,7 @@ import sys
 from sqlite3 import Error
 
 def remove(path):
-    #os.remove(path)
+    os.remove(path)
     pass
 
 def process():
@@ -16,7 +16,7 @@ def process():
     # initializing paths
     path_to_raw = os.path.join(os.path.dirname(__file__), 'fetcher_main\\Images')
     path_to_preprocessed = os.path.join(os.path.dirname(__file__), 'pre-processed')
-    path_to_rawdb = os.path.join(os.path.dirname(__file__), 'fetcher_main\\raw.db')
+    path_to_rawdb = os.path.join(os.path.dirname(__file__), 'data.db')
     path_to_db = os.path.join(os.path.dirname(__file__), "data.db")
     raw_list = os.listdir(path_to_raw)
 
@@ -136,5 +136,3 @@ def process():
     conn.close()
     conn_raw.close()
     print("Pre-Process Complete")
-
-process()

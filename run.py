@@ -4,9 +4,9 @@ import pre_process
 import time
 
 def loop():
-    fetch.retrieve()
-    pre_process.process()
-    image_matching.process()
-    #time.sleep(15)
-
+    while True:
+        fetch.retrieve()
+        pre_process.process()
+        image_matching.process()
+        time.sleep(30)
 loop()
