@@ -6,6 +6,7 @@ import sqlite3
 from sqlite3 import Error
 import cv2
 import os
+import select
 
 path_to_preprocessed = os.path.join(os.path.dirname(__file__), 'pre-processed')
 path_to_processed = os.path.join(os.path.dirname(__file__), 'processed')
@@ -14,6 +15,8 @@ processed_list = os.listdir(path_to_processed)
 preprocessed_list = os.listdir(path_to_preprocessed)
 
 def match(img_path):
+    name = int(img_path.split(".")[0])
+    res = select.execute(name)
     try:
         im = Image.open(os.path.join(path_to_preprocessed, img_path))
         processed_list = os.listdir(path_to_processed)
@@ -31,17 +34,21 @@ def match(img_path):
     if len(processed_list) != 0:
         match = {}
         for img_test in processed_list:
-            try:
-                im_match = Image.open(os.path.join(path_to_processed, img_test))
-                im_match = np.array(im_match)
-                im_cpy = im_np.copy()
-                s = ssim(im_cpy, im_match, multichannel=True)
-                match[s] = img_test
-            except Exception as e:
-                print(e)
-                pass
+            if int(img_test.split(".")[0]) in res:
+                try:
+                    im_match = Image.open(os.path.join(path_to_processed, img_test))
+                    im_match = np.array(im_match)
+                    im_cpy = im_np.copy()
+                    s = ssim(im_cpy, im_match, multichannel=True)
+                    match[s] = img_test
+                except Exception as e:
+                    print(e)
+                    pass
+            else:
+                match[0] = img_test
         m = max(match, key=float)
-        im.save(os.path.join(path_to_processed, img_path))
+        if m < 0.95:
+            im.save(os.path.join(path_to_processed, img_path))
         os.remove(os.path.join(path_to_preprocessed, img_path))
         return m, match[m]
 

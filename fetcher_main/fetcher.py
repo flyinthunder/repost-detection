@@ -36,7 +36,7 @@ def retrieve():
 
 
     #Choose subreddit to download images
-    subreddit = reddit.subreddit('images')
+    subreddit = reddit.subreddit('final_projekt')
     top_subreddit = subreddit.new(limit=25)
 
     for submission in top_subreddit:
