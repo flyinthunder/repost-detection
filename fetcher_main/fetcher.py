@@ -11,9 +11,10 @@ import fetcher_main.move_images as move_images
 exit = 0
 
 def retrieve():
+    print("Acquiring Data")
     #Connect to test.db
     conn = sqlite3.connect('data.db')
-    print("Opened database successfully")
+    #print("Opened database successfully")
     cursor = conn.cursor()
 
     #Create Table DETAILS
@@ -41,7 +42,7 @@ def retrieve():
 
     for submission in top_subreddit:
 
-        print(submission)
+        #print(submission)
         cursor.execute("SELECT ID FROM DETAILS WHERE ID = ?", (submission.id,))
         data = cursor.fetchall()
 
@@ -51,7 +52,7 @@ def retrieve():
         #Insert details in DB
             cursor.execute("INSERT INTO DETAILS (ID, TITLE, URL, CREATED) VALUES (?, ?, ?, ?)",
               (submission.id, submission.title, submission.url, submission.created))
-            print("ADDED VALUES")
+            print("New Post Added to Database")
 
         #Select only .png and .jpg files to download
             if submission.url.endswith(".png"):
@@ -65,8 +66,8 @@ def retrieve():
 
     conn.commit()
     conn.close()
-
     move_images.move()
+    print("Acquiring Complete")
 
     #To make to code loop after specific interval
     """while True:

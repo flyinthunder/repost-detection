@@ -12,7 +12,7 @@ def move():
     files = os.listdir(script_dir)
 
     for file in files:
-        print(file)
+        #print(file)
         try:
             typ = file.split(".")[1]
             if ((typ == "jpg") or (typ == "png")):
